@@ -2,13 +2,14 @@ import React from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootTabParamList } from '../types/navigation';
 import { useUserStore } from '../state/userStore';
 
 const avatarEmojis = ['🧑‍🎓', '👨‍🎓', '👩‍🎓', '🧑‍🏫', '👨‍🏫', '👩‍🏫'];
 
 export const HomeScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootTabParamList>>();
   const insets = useSafeAreaInsets();
   const { xp, level, streak, avatarId, isPro, dailySolves, dailyQuizzes, updateStreak } = useUserStore();
 
@@ -17,11 +18,23 @@ export const HomeScreen = () => {
   }, []);
 
   const handleSnapQuestion = () => {
-    navigation.navigate('Solve' as never);
+    try {
+      if (navigation) {
+        navigation.navigate('Solve');
+      }
+    } catch (error) {
+      console.error('Navigation error:', error);
+    }
   };
 
   const handleDailyQuiz = () => {
-    navigation.navigate('Quiz' as never);
+    try {
+      if (navigation) {
+        navigation.navigate('Quiz');
+      }
+    } catch (error) {
+      console.error('Navigation error:', error);
+    }
   };
 
   const xpForNextLevel = level * 100;
@@ -142,7 +155,7 @@ export const HomeScreen = () => {
                 </Text>
               </View>
               <Pressable
-                onPress={() => navigation.navigate('Profile' as never)}
+                onPress={() => navigation.navigate('Profile')}
                 className="bg-white rounded-full px-6 py-3 active:scale-95"
                 style={{ transform: [{ scale: 1 }] }}
               >

@@ -2,12 +2,13 @@ import React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootTabParamList } from '../types/navigation';
 import { useUserStore } from '../state/userStore';
 import { useQuizStore } from '../state/quizStore';
 
 export const ProgressScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootTabParamList>>();
   const insets = useSafeAreaInsets();
   const { xp, level, streak, isPro } = useUserStore();
   const { quizHistory } = useQuizStore();
@@ -226,7 +227,7 @@ export const ProgressScreen = () => {
                 Get unlimited solves, quizzes, and detailed analytics
               </Text>
               <Pressable
-                onPress={() => navigation.navigate('Profile' as never)}
+                onPress={() => navigation.navigate('Profile')}
                 className="bg-white rounded-full px-8 py-3 active:scale-95"
                 style={{ transform: [{ scale: 1 }] }}
               >
