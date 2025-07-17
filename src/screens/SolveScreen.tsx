@@ -8,6 +8,9 @@ import * as FileSystem from 'expo-file-system';
 import { useUserStore } from '../state/userStore';
 import { getOpenAITextResponse } from '../api/chat-service';
 import { AIMessage } from '../types/ai';
+import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
+import { Colors } from '../constants/Colors';
 
 interface SolutionResponse {
   answer: string;
@@ -225,143 +228,160 @@ export const SolveScreen = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1" style={{ backgroundColor: Colors.background.primary }}>
       <ScrollView 
         className="flex-1 px-6"
         contentContainerStyle={{ paddingTop: insets.top + 20 }}
+        showsVerticalScrollIndicator={false}
       >
         {/* Header */}
         <View className="items-center mb-8">
-          <View className="bg-blue-100 rounded-full p-4 mb-4">
-            <Ionicons name="camera" size={48} color="#3B82F6" />
+          <View className="bg-green-100 rounded-full p-6 mb-4 shadow-lg">
+            <Ionicons name="camera" size={56} color={Colors.primary[600]} />
           </View>
-          <Text className="text-2xl font-bold text-gray-800">Solve Questions</Text>
-          <Text className="text-gray-600 mt-1 text-center">
-            Take a photo of any question and get instant solutions
+          <Text className="text-3xl font-bold text-gray-800">Solve Questions</Text>
+          <Text className="text-gray-600 mt-2 text-center font-medium">
+            Snap a photo and get instant AI-powered solutions
           </Text>
         </View>
 
         {/* Usage Counter */}
-        <View className="bg-white rounded-xl p-4 mb-6 shadow-sm">
+        <Card className="mb-6">
           <View className="flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-gray-800">Today's Solves</Text>
-            <Text className="text-2xl font-bold text-blue-500">
-              {dailySolves}/{isPro ? '∞' : '5'}
-            </Text>
+            <View className="flex-1">
+              <Text className="text-lg font-bold text-gray-800">Today's Solves</Text>
+              <Text className="text-gray-600 mt-1">
+                {!isPro && dailySolves >= 5 ? 'Daily limit reached' : 'Keep learning!'}
+              </Text>
+            </View>
+            <View className="bg-green-100 rounded-full px-4 py-2">
+              <Text className="text-2xl font-bold text-green-600">
+                {dailySolves}/{isPro ? '∞' : '5'}
+              </Text>
+            </View>
           </View>
           {!isPro && dailySolves >= 5 && (
-            <Text className="text-red-500 text-sm mt-2">
-              Daily limit reached. Upgrade to Pro for unlimited solves!
-            </Text>
+            <View className="bg-red-50 rounded-xl p-3 mt-4">
+              <Text className="text-red-600 text-sm font-medium text-center">
+                Daily limit reached. Upgrade to Pro for unlimited solves!
+              </Text>
+            </View>
           )}
-        </View>
+        </Card>
 
         {/* Main Action Buttons */}
         {!capturedImage && !solution && (
           <View className="space-y-4 mb-8">
-            <Pressable
+            <Button
+              title="Take a Photo"
               onPress={handleTakePhoto}
-              className="bg-blue-500 rounded-2xl p-6 shadow-lg active:scale-95"
-              style={{ transform: [{ scale: 1 }] }}
-            >
-              <View className="flex-row items-center justify-center">
-                <Ionicons name="camera" size={32} color="white" />
-                <Text className="text-white text-xl font-bold ml-3">Take a Photo</Text>
-              </View>
-              <Text className="text-blue-100 text-center mt-2">
-                Point your camera at any question
-              </Text>
-            </Pressable>
+              icon="camera"
+              size="large"
+              className="bg-green-500 shadow-xl shadow-green-500/25"
+            />
 
-            <Pressable
+            <Button
+              title="Choose from Gallery"
               onPress={handlePickImage}
-              className="bg-purple-500 rounded-2xl p-6 shadow-lg active:scale-95"
-              style={{ transform: [{ scale: 1 }] }}
-            >
-              <View className="flex-row items-center justify-center">
-                <Ionicons name="images" size={32} color="white" />
-                <Text className="text-white text-xl font-bold ml-3">Choose from Gallery</Text>
-              </View>
-              <Text className="text-purple-100 text-center mt-2">
-                Select an image from your photos
-              </Text>
-            </Pressable>
+              icon="images"
+              size="large"
+              variant="secondary"
+              className="border-green-500 bg-green-50 shadow-xl shadow-green-500/10"
+            />
           </View>
         )}
 
         {/* Loading State */}
         {loading && (
-          <View className="bg-white rounded-xl p-8 shadow-sm items-center">
-            <ActivityIndicator size="large" color="#3B82F6" />
-            <Text className="text-lg font-semibold text-gray-800 mt-4">
+          <Card className="items-center py-8">
+            <View className="bg-green-100 rounded-full p-4 mb-4">
+              <ActivityIndicator size="large" color={Colors.primary[600]} />
+            </View>
+            <Text className="text-xl font-bold text-gray-800 mb-2">
               Solving your question...
             </Text>
-            <Text className="text-gray-600 mt-2 text-center">
-              Please wait while we analyze the image
+            <Text className="text-gray-600 text-center">
+              Our AI is analyzing the image and preparing a detailed solution
             </Text>
-          </View>
+          </Card>
         )}
 
         {/* Captured Image */}
         {capturedImage && !loading && (
-          <View className="bg-white rounded-xl p-4 mb-6 shadow-sm">
-            <Text className="text-lg font-semibold text-gray-800 mb-3">Captured Image</Text>
-            <Image
-              source={{ uri: capturedImage }}
-              className="w-full h-48 rounded-lg"
-              resizeMode="contain"
-            />
-          </View>
+          <Card className="mb-6">
+            <Text className="text-lg font-bold text-gray-800 mb-4">Your Question</Text>
+            <View className="bg-gray-50 rounded-xl p-2">
+              <Image
+                source={{ uri: capturedImage }}
+                className="w-full h-48 rounded-lg"
+                resizeMode="contain"
+              />
+            </View>
+          </Card>
         )}
 
         {/* Solution Display */}
         {solution && !loading && (
           <View className="space-y-4 mb-8">
             {/* Answer */}
-            <View className="bg-green-50 border border-green-200 rounded-xl p-4">
-              <Text className="text-lg font-bold text-green-800 mb-2">Answer</Text>
-              <Text className="text-green-700 text-lg">{solution.answer}</Text>
-            </View>
+            <Card className="bg-green-50 border-2 border-green-200">
+              <View className="flex-row items-center mb-3">
+                <View className="bg-green-500 rounded-full p-2 mr-3">
+                  <Ionicons name="checkmark" size={20} color="white" />
+                </View>
+                <Text className="text-xl font-bold text-green-800">Answer</Text>
+              </View>
+              <Text className="text-green-700 text-lg font-semibold">{solution.answer}</Text>
+            </Card>
 
             {/* Explanation */}
-            <View className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-              <Text className="text-lg font-bold text-blue-800 mb-2">Explanation</Text>
+            <Card className="bg-blue-50 border-2 border-blue-200">
+              <View className="flex-row items-center mb-3">
+                <View className="bg-blue-500 rounded-full p-2 mr-3">
+                  <Ionicons name="bulb" size={20} color="white" />
+                </View>
+                <Text className="text-xl font-bold text-blue-800">Explanation</Text>
+              </View>
               <Text className="text-blue-700 leading-relaxed">{solution.explanation}</Text>
-            </View>
+            </Card>
 
             {/* Steps */}
             {solution.steps && solution.steps.length > 0 && (
-              <View className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-                <Text className="text-lg font-bold text-yellow-800 mb-2">Step-by-Step</Text>
+              <Card className="bg-amber-50 border-2 border-amber-200">
+                <View className="flex-row items-center mb-3">
+                  <View className="bg-amber-500 rounded-full p-2 mr-3">
+                    <Ionicons name="list" size={20} color="white" />
+                  </View>
+                  <Text className="text-xl font-bold text-amber-800">Step-by-Step</Text>
+                </View>
                 {solution.steps.map((step, index) => (
-                  <Text key={index} className="text-yellow-700 mb-2">
-                    {step}
-                  </Text>
+                  <View key={index} className="flex-row items-start mb-3">
+                    <View className="bg-amber-500 rounded-full w-6 h-6 items-center justify-center mr-3 mt-1">
+                      <Text className="text-white text-xs font-bold">{index + 1}</Text>
+                    </View>
+                    <Text className="text-amber-700 flex-1">{step}</Text>
+                  </View>
                 ))}
-              </View>
+              </Card>
             )}
 
             {/* Action Buttons */}
             <View className="flex-row space-x-4">
-              <Pressable
+              <Button
+                title="Try Similar Question"
                 onPress={generateSimilarQuestion}
-                className="flex-1 bg-purple-500 rounded-xl p-4 active:scale-95"
-                style={{ transform: [{ scale: 1 }] }}
-              >
-                <Text className="text-white text-center font-semibold">
-                  Try Similar Question
-                </Text>
-              </Pressable>
+                icon="refresh"
+                variant="secondary"
+                className="flex-1 border-purple-500 bg-purple-50"
+              />
               
-              <Pressable
+              <Button
+                title="Solve Another"
                 onPress={resetSolve}
-                className="flex-1 bg-gray-500 rounded-xl p-4 active:scale-95"
-                style={{ transform: [{ scale: 1 }] }}
-              >
-                <Text className="text-white text-center font-semibold">
-                  Solve Another
-                </Text>
-              </Pressable>
+                icon="add"
+                variant="outline"
+                className="flex-1 border-gray-500"
+              />
             </View>
           </View>
         )}

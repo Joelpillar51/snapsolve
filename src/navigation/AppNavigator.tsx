@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { HomeScreen } from '../screens/HomeScreen';
@@ -28,22 +29,33 @@ export const AppNavigator = () => {
             iconName = focused ? 'person' : 'person-outline';
           }
 
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return (
+            <View className={`items-center justify-center w-12 h-12 rounded-2xl ${focused ? 'bg-green-100' : ''}`}>
+              <Ionicons name={iconName} size={focused ? 24 : 22} color={color} />
+            </View>
+          );
         },
-        tabBarActiveTintColor: '#3B82F6',
+        tabBarActiveTintColor: '#22c55e',
         tabBarInactiveTintColor: '#9CA3AF',
         headerShown: false,
         tabBarStyle: {
           backgroundColor: 'white',
-          borderTopWidth: 1,
-          borderTopColor: '#E5E7EB',
+          borderTopWidth: 0,
           paddingBottom: 8,
           paddingTop: 8,
           height: 90,
+          elevation: 0,
+          shadowOpacity: 0,
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '500',
+          fontSize: 11,
+          fontWeight: '600',
+          marginTop: 4,
+        },
+        tabBarItemStyle: {
+          paddingVertical: 8,
         },
       })}
     >

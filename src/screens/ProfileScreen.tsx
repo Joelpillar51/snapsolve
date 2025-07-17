@@ -3,6 +3,9 @@ import { View, Text, Pressable, ScrollView, Alert, Modal } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useUserStore } from '../state/userStore';
+import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
+import { Colors } from '../constants/Colors';
 
 const avatarEmojis = [
   '🧑‍🎓', '👨‍🎓', '👩‍🎓', '🧑‍🏫', '👨‍🏫', '👩‍🏫',
@@ -55,37 +58,43 @@ export const ProfileScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1" style={{ backgroundColor: Colors.background.primary }}>
       <ScrollView 
         className="flex-1 px-6"
         contentContainerStyle={{ paddingTop: insets.top + 20 }}
+        showsVerticalScrollIndicator={false}
       >
         {/* Header */}
         <View className="items-center mb-8">
-          <Pressable
-            onPress={() => setShowAvatarModal(true)}
-            className="bg-white rounded-full p-4 shadow-sm mb-4 active:scale-95"
-            style={{ transform: [{ scale: 1 }] }}
-          >
-            <Text className="text-6xl">{avatarEmojis[avatarId - 1]}</Text>
-          </Pressable>
-          <Text className="text-2xl font-bold text-gray-800">Profile</Text>
+          <View className="relative">
+            <Pressable
+              onPress={() => setShowAvatarModal(true)}
+              className="bg-white rounded-full p-6 shadow-lg mb-4 active:scale-95 border-4 border-green-100"
+              style={{ transform: [{ scale: 1 }] }}
+            >
+              <Text className="text-6xl">{avatarEmojis[avatarId - 1]}</Text>
+            </Pressable>
+            <View className="absolute -bottom-2 -right-2 bg-green-500 rounded-full p-2">
+              <Ionicons name="pencil" size={16} color="white" />
+            </View>
+          </View>
+          <Text className="text-3xl font-bold text-gray-800">Profile</Text>
           <View className="flex-row items-center mt-2">
-            <Text className="text-gray-600">Level {level}</Text>
+            <Text className="text-green-600 font-semibold">Level {level}</Text>
             <View className="w-1 h-1 bg-gray-400 rounded-full mx-2" />
-            <Text className="text-gray-600">{xp} XP</Text>
+            <Text className="text-green-600 font-semibold">{xp} XP</Text>
           </View>
         </View>
 
         {/* Subscription Status */}
-        <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
+        <Card className="mb-6">
           <View className="flex-row items-center justify-between mb-4">
-            <Text className="text-lg font-bold text-gray-800">Subscription</Text>
-            <View className={`px-3 py-1 rounded-full ${
-              isPro ? 'bg-gold-100 border border-gold-500' : 'bg-gray-100 border border-gray-300'
+            <Text className="text-xl font-bold text-gray-800">Subscription</Text>
+            <View className={`px-4 py-2 rounded-full ${
+              isPro ? 'bg-amber-100 border border-amber-500' : 'bg-gray-100 border border-gray-300'
             }`}>
               <Text className={`text-sm font-bold ${
-                isPro ? 'text-yellow-600' : 'text-gray-600'
+                isPro ? 'text-amber-600' : 'text-gray-600'
               }`}>
                 {isPro ? 'PRO' : 'FREE'}
               </Text>
@@ -93,126 +102,140 @@ export const ProfileScreen = () => {
           </View>
           
           {isPro ? (
-            <View className="bg-yellow-50 rounded-lg p-4">
+            <View className="bg-amber-50 rounded-xl p-4">
               <View className="flex-row items-center">
                 <Ionicons name="star" size={24} color="#D97706" />
-                <Text className="text-yellow-800 font-medium ml-2">
+                <Text className="text-amber-800 font-bold ml-2">
                   Pro Member
                 </Text>
               </View>
-              <Text className="text-yellow-700 mt-2">
+              <Text className="text-amber-700 mt-2 font-medium">
                 You have unlimited access to all features!
               </Text>
             </View>
           ) : (
             <View className="space-y-4">
-              <View className="bg-blue-50 rounded-lg p-4">
-                <Text className="text-blue-800 font-medium mb-2">Free Plan Benefits:</Text>
-                <View className="space-y-1">
-                  <Text className="text-blue-700">• 5 photo solves per day</Text>
-                  <Text className="text-blue-700">• 1 quiz per day</Text>
-                  <Text className="text-blue-700">• Basic progress tracking</Text>
+              <View className="bg-blue-50 rounded-xl p-4">
+                <Text className="text-blue-800 font-bold mb-3">Free Plan Benefits:</Text>
+                <View className="space-y-2">
+                  <View className="flex-row items-center">
+                    <Ionicons name="camera" size={16} color="#3B82F6" />
+                    <Text className="text-blue-700 ml-2 font-medium">5 photo solves per day</Text>
+                  </View>
+                  <View className="flex-row items-center">
+                    <Ionicons name="school" size={16} color="#3B82F6" />
+                    <Text className="text-blue-700 ml-2 font-medium">1 quiz per day</Text>
+                  </View>
+                  <View className="flex-row items-center">
+                    <Ionicons name="stats-chart" size={16} color="#3B82F6" />
+                    <Text className="text-blue-700 ml-2 font-medium">Basic progress tracking</Text>
+                  </View>
                 </View>
               </View>
               
-              <Pressable
+              <Button
+                title="Upgrade to Pro"
                 onPress={() => setShowUpgradeModal(true)}
-                className="bg-purple-500 rounded-xl p-4 active:scale-95"
-                style={{ transform: [{ scale: 1 }] }}
-              >
-                <View className="flex-row items-center justify-center">
-                  <Ionicons name="rocket" size={24} color="white" />
-                  <Text className="text-white font-bold text-lg ml-2">Upgrade to Pro</Text>
-                </View>
-              </Pressable>
+                icon="rocket"
+                size="large"
+                className="bg-purple-500 shadow-xl shadow-purple-500/25"
+              />
             </View>
           )}
-        </View>
+        </Card>
 
         {/* Daily Usage */}
-        <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-          <Text className="text-lg font-bold text-gray-800 mb-4">Today's Usage</Text>
+        <Card className="mb-6">
+          <Text className="text-xl font-bold text-gray-800 mb-4">Today's Usage</Text>
           
           <View className="space-y-4">
-            <View className="flex-row items-center justify-between">
-              <View className="flex-row items-center">
-                <View className="bg-blue-100 rounded-full p-2 mr-3">
-                  <Ionicons name="camera" size={20} color="#3B82F6" />
+            <View className="bg-green-50 rounded-xl p-4">
+              <View className="flex-row items-center justify-between">
+                <View className="flex-row items-center">
+                  <View className="bg-green-500 rounded-full p-2 mr-3">
+                    <Ionicons name="camera" size={20} color="white" />
+                  </View>
+                  <Text className="text-gray-700 font-bold">Photo Solves</Text>
                 </View>
-                <Text className="text-gray-700 font-medium">Photo Solves</Text>
-              </View>
-              <View className="flex-row items-center">
-                <Text className="text-gray-600">{dailySolves}</Text>
-                <Text className="text-gray-400 mx-1">/</Text>
-                <Text className="text-gray-600">{isPro ? '∞' : '5'}</Text>
+                <Text className="text-green-600 font-bold text-lg">
+                  {dailySolves}/{isPro ? '∞' : '5'}
+                </Text>
               </View>
             </View>
             
-            <View className="flex-row items-center justify-between">
-              <View className="flex-row items-center">
-                <View className="bg-purple-100 rounded-full p-2 mr-3">
-                  <Ionicons name="school" size={20} color="#8B5CF6" />
+            <View className="bg-blue-50 rounded-xl p-4">
+              <View className="flex-row items-center justify-between">
+                <View className="flex-row items-center">
+                  <View className="bg-blue-500 rounded-full p-2 mr-3">
+                    <Ionicons name="school" size={20} color="white" />
+                  </View>
+                  <Text className="text-gray-700 font-bold">Daily Quizzes</Text>
                 </View>
-                <Text className="text-gray-700 font-medium">Daily Quizzes</Text>
-              </View>
-              <View className="flex-row items-center">
-                <Text className="text-gray-600">{dailyQuizzes}</Text>
-                <Text className="text-gray-400 mx-1">/</Text>
-                <Text className="text-gray-600">{isPro ? '∞' : '1'}</Text>
+                <Text className="text-blue-600 font-bold text-lg">
+                  {dailyQuizzes}/{isPro ? '∞' : '1'}
+                </Text>
               </View>
             </View>
             
-            <View className="flex-row items-center justify-between">
-              <View className="flex-row items-center">
-                <View className="bg-orange-100 rounded-full p-2 mr-3">
-                  <Ionicons name="flame" size={20} color="#FB923C" />
+            <View className="bg-orange-50 rounded-xl p-4">
+              <View className="flex-row items-center justify-between">
+                <View className="flex-row items-center">
+                  <View className="bg-orange-500 rounded-full p-2 mr-3">
+                    <Ionicons name="flame" size={20} color="white" />
+                  </View>
+                  <Text className="text-gray-700 font-bold">Current Streak</Text>
                 </View>
-                <Text className="text-gray-700 font-medium">Current Streak</Text>
+                <Text className="text-orange-500 font-bold text-lg">{streak} days</Text>
               </View>
-              <Text className="text-orange-500 font-bold">{streak} days</Text>
             </View>
           </View>
-        </View>
+        </Card>
 
         {/* Settings */}
-        <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-          <Text className="text-lg font-bold text-gray-800 mb-4">Settings</Text>
+        <Card className="mb-6">
+          <Text className="text-xl font-bold text-gray-800 mb-4">Settings</Text>
           
-          <View className="space-y-1">
+          <View className="space-y-2">
             <Pressable
               onPress={() => setShowAvatarModal(true)}
-              className="flex-row items-center justify-between py-3 active:bg-gray-50 rounded-lg px-3"
+              className="flex-row items-center justify-between py-4 active:bg-gray-50 rounded-xl px-4"
             >
               <View className="flex-row items-center">
-                <Ionicons name="person-circle-outline" size={24} color="#6B7280" />
-                <Text className="text-gray-700 ml-3">Change Avatar</Text>
+                <View className="bg-green-100 rounded-full p-2 mr-3">
+                  <Ionicons name="person-circle-outline" size={24} color={Colors.primary[600]} />
+                </View>
+                <Text className="text-gray-700 font-medium">Change Avatar</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
             </Pressable>
             
             <Pressable
               onPress={handleContactSupport}
-              className="flex-row items-center justify-between py-3 active:bg-gray-50 rounded-lg px-3"
+              className="flex-row items-center justify-between py-4 active:bg-gray-50 rounded-xl px-4"
             >
               <View className="flex-row items-center">
-                <Ionicons name="help-circle-outline" size={24} color="#6B7280" />
-                <Text className="text-gray-700 ml-3">Contact Support</Text>
+                <View className="bg-blue-100 rounded-full p-2 mr-3">
+                  <Ionicons name="help-circle-outline" size={24} color="#3B82F6" />
+                </View>
+                <Text className="text-gray-700 font-medium">Contact Support</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
             </Pressable>
             
             <Pressable
               onPress={handleAbout}
-              className="flex-row items-center justify-between py-3 active:bg-gray-50 rounded-lg px-3"
+              className="flex-row items-center justify-between py-4 active:bg-gray-50 rounded-xl px-4"
             >
               <View className="flex-row items-center">
-                <Ionicons name="information-circle-outline" size={24} color="#6B7280" />
-                <Text className="text-gray-700 ml-3">About SnapSolve</Text>
+                <View className="bg-purple-100 rounded-full p-2 mr-3">
+                  <Ionicons name="information-circle-outline" size={24} color="#8B5CF6" />
+                </View>
+                <Text className="text-gray-700 font-medium">About SnapSolve</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
             </Pressable>
           </View>
-        </View>
+        </Card>
       </ScrollView>
 
       {/* Avatar Selection Modal */}
