@@ -133,7 +133,7 @@ export const HomeScreen = () => {
 
         {/* Upgrade CTA */}
         {!isPro && (
-          <View className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-6 shadow-lg">
+          <View className="bg-orange-500 rounded-xl p-6 shadow-lg">
             <View className="flex-row items-center justify-between">
               <View className="flex-1">
                 <Text className="text-white text-lg font-bold">Upgrade to Pro</Text>

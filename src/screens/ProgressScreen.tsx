@@ -136,29 +136,37 @@ export const ProgressScreen = () => {
         <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
           <Text className="text-lg font-bold text-gray-800 mb-4">Overview</Text>
           
-          <View className="grid grid-cols-2 gap-4">
-            <View className="bg-blue-50 rounded-lg p-4 items-center">
-              <Ionicons name="trophy" size={32} color="#3B82F6" />
-              <Text className="text-2xl font-bold text-blue-600 mt-2">{xp}</Text>
-              <Text className="text-blue-600 text-sm">Total XP</Text>
+          <View className="flex-row flex-wrap">
+            <View className="w-1/2 p-1">
+              <View className="bg-blue-50 rounded-lg p-4 items-center">
+                <Ionicons name="trophy" size={32} color="#3B82F6" />
+                <Text className="text-2xl font-bold text-blue-600 mt-2">{xp}</Text>
+                <Text className="text-blue-600 text-sm">Total XP</Text>
+              </View>
             </View>
             
-            <View className="bg-purple-50 rounded-lg p-4 items-center">
-              <Ionicons name="school" size={32} color="#8B5CF6" />
-              <Text className="text-2xl font-bold text-purple-600 mt-2">{quizHistory.length}</Text>
-              <Text className="text-purple-600 text-sm">Quizzes Taken</Text>
+            <View className="w-1/2 p-1">
+              <View className="bg-purple-50 rounded-lg p-4 items-center">
+                <Ionicons name="school" size={32} color="#8B5CF6" />
+                <Text className="text-2xl font-bold text-purple-600 mt-2">{quizHistory.length}</Text>
+                <Text className="text-purple-600 text-sm">Quizzes Taken</Text>
+              </View>
             </View>
             
-            <View className="bg-green-50 rounded-lg p-4 items-center">
-              <Ionicons name="checkmark-circle" size={32} color="#10B981" />
-              <Text className="text-2xl font-bold text-green-600 mt-2">{level}</Text>
-              <Text className="text-green-600 text-sm">Current Level</Text>
+            <View className="w-1/2 p-1">
+              <View className="bg-green-50 rounded-lg p-4 items-center">
+                <Ionicons name="checkmark-circle" size={32} color="#10B981" />
+                <Text className="text-2xl font-bold text-green-600 mt-2">{level}</Text>
+                <Text className="text-green-600 text-sm">Current Level</Text>
+              </View>
             </View>
             
-            <View className="bg-orange-50 rounded-lg p-4 items-center">
-              <Ionicons name="flame" size={32} color="#FB923C" />
-              <Text className="text-2xl font-bold text-orange-600 mt-2">{streak}</Text>
-              <Text className="text-orange-600 text-sm">Day Streak</Text>
+            <View className="w-1/2 p-1">
+              <View className="bg-orange-50 rounded-lg p-4 items-center">
+                <Ionicons name="flame" size={32} color="#FB923C" />
+                <Text className="text-2xl font-bold text-orange-600 mt-2">{streak}</Text>
+                <Text className="text-orange-600 text-sm">Day Streak</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -210,7 +218,7 @@ export const ProgressScreen = () => {
 
         {/* Upgrade CTA */}
         {!isPro && (
-          <View className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-6 shadow-lg mb-8">
+          <View className="bg-purple-500 rounded-xl p-6 shadow-lg mb-8">
             <View className="items-center">
               <Ionicons name="star" size={48} color="white" />
               <Text className="text-white text-xl font-bold mt-2">Upgrade to Pro</Text>

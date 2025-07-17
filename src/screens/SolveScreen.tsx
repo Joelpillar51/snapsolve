@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, Pressable, Alert, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { CameraView, CameraType, useCameraPermissions, CameraViewRef } from 'expo-camera';
+import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useUserStore } from '../state/userStore';
@@ -22,7 +22,7 @@ export const SolveScreen = () => {
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [solution, setSolution] = useState<SolutionResponse | null>(null);
-  const cameraRef = useRef<CameraViewRef>(null);
+  const cameraRef = useRef<CameraView>(null);
   const insets = useSafeAreaInsets();
   
   const { useSolve, incrementXP, isPro, dailySolves } = useUserStore();
@@ -84,7 +84,7 @@ export const SolveScreen = () => {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const photo = await cameraRef.current.takePictureAsync({
+      const photo = await cameraRef.current.takePicture({
         quality: 0.8,
         base64: true,
       });

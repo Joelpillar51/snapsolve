@@ -343,12 +343,12 @@ export const QuizScreen = () => {
         {/* Subject Selection */}
         <View className="bg-white rounded-xl p-4 mb-6 shadow-sm">
           <Text className="text-lg font-semibold text-gray-800 mb-4">Choose Subject</Text>
-          <View className="grid grid-cols-2 gap-3">
+          <View className="flex-row flex-wrap">
             {subjects.map((subject) => (
               <Pressable
                 key={subject.id}
                 onPress={() => setSelectedSubject(subject.id)}
-                className={`p-4 rounded-xl border-2 active:scale-95 ${
+                className={`w-40 p-4 rounded-xl border-2 active:scale-95 m-1 ${
                   selectedSubject === subject.id
                     ? 'bg-purple-50 border-purple-500'
                     : 'bg-gray-50 border-gray-200'

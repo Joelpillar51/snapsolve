@@ -117,7 +117,7 @@ export const ProfileScreen = () => {
               
               <Pressable
                 onPress={() => setShowUpgradeModal(true)}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-4 active:scale-95"
+                className="bg-purple-500 rounded-xl p-4 active:scale-95"
                 style={{ transform: [{ scale: 1 }] }}
               >
                 <View className="flex-row items-center justify-center">
@@ -125,7 +125,7 @@ export const ProfileScreen = () => {
                   <Text className="text-white font-bold text-lg ml-2">Upgrade to Pro</Text>
                 </View>
               </Pressable>
-            </div>
+            </View>
           )}
         </View>
 
@@ -145,7 +145,7 @@ export const ProfileScreen = () => {
                 <Text className="text-gray-600">{dailySolves}</Text>
                 <Text className="text-gray-400 mx-1">/</Text>
                 <Text className="text-gray-600">{isPro ? '∞' : '5'}</Text>
-              </div>
+              </View>
             </View>
             
             <View className="flex-row items-center justify-between">
@@ -159,7 +159,7 @@ export const ProfileScreen = () => {
                 <Text className="text-gray-600">{dailyQuizzes}</Text>
                 <Text className="text-gray-400 mx-1">/</Text>
                 <Text className="text-gray-600">{isPro ? '∞' : '1'}</Text>
-              </div>
+              </View>
             </View>
             
             <View className="flex-row items-center justify-between">
@@ -234,12 +234,12 @@ export const ProfileScreen = () => {
           </View>
           
           <ScrollView className="flex-1 p-6">
-            <View className="grid grid-cols-3 gap-4">
+            <View className="flex-row flex-wrap">
               {avatarEmojis.map((emoji, index) => (
                 <Pressable
                   key={index}
                   onPress={() => handleAvatarSelect(index + 1)}
-                  className={`aspect-square rounded-2xl p-4 items-center justify-center active:scale-95 ${
+                  className={`w-24 h-24 rounded-2xl p-4 items-center justify-center active:scale-95 m-2 ${
                     avatarId === index + 1 
                       ? 'bg-blue-100 border-2 border-blue-500' 
                       : 'bg-gray-100'
@@ -274,7 +274,7 @@ export const ProfileScreen = () => {
           
           <ScrollView className="flex-1 p-6">
             <View className="items-center mb-8">
-              <View className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-full p-6 mb-4">
+              <View className="bg-purple-500 rounded-full p-6 mb-4">
                 <Ionicons name="star" size={48} color="white" />
               </View>
               <Text className="text-2xl font-bold text-gray-800">SnapSolve Pro</Text>
@@ -311,7 +311,7 @@ export const ProfileScreen = () => {
             
             <Pressable
               onPress={handleUpgrade}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-4 active:scale-95 mb-4"
+              className="bg-purple-500 rounded-xl p-4 active:scale-95 mb-4"
               style={{ transform: [{ scale: 1 }] }}
             >
               <Text className="text-white font-bold text-lg text-center">

@@ -26,7 +26,7 @@ export const getAnthropicTextResponse = async (
       model: options?.model || defaultModel,
       messages: messages.map((msg) => ({
         role: msg.role === "assistant" ? "assistant" : "user",
-        content: msg.content,
+        content: msg.content as string,
       })),
       max_tokens: options?.maxTokens || 2048,
       temperature: options?.temperature || 0.7,
@@ -76,7 +76,7 @@ export const getOpenAITextResponse = async (messages: AIMessage[], options?: AIR
 
     const response = await client.chat.completions.create({
       model: options?.model || defaultModel,
-      messages: messages,
+      messages: messages as any,
       temperature: options?.temperature ?? 0.7,
       max_tokens: options?.maxTokens || 2048,
     });
@@ -117,7 +117,7 @@ export const getGrokTextResponse = async (messages: AIMessage[], options?: AIReq
 
     const response = await client.chat.completions.create({
       model: options?.model || defaultModel,
-      messages: messages,
+      messages: messages as any,
       temperature: options?.temperature ?? 0.7,
       max_tokens: options?.maxTokens || 2048,
     });
